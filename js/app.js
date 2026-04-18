@@ -68,10 +68,10 @@ function getNextChordKey(currentKey, graph) {
 }
 
 // --- 新增：生成节奏动机 (Rhythmic Motif) ---
-function generateNewMotif() {
+function generateNewMotif(beatsPerBar) {
     // 生成一个长度为 1小节 或 2小节 的节奏型
     const pattern = [];
-    let remaining = 4.0; // 凑满 4 拍
+    let remaining = beatsPerBar; // 凑满 4 拍
     
     const possibleDurations = [0.5, 0.5, 1.0, 1.0, 2.0];
     
@@ -90,7 +90,7 @@ function generateNewMotif() {
 // --- 新增：乐句控制逻辑 ---
 function updatePhraseState() {
     // 如果当前乐句/休息结束了
-    if (state.phraseBeatsRemaining <= 0) {
+    if (state.phraseBeatsRemaining <= 1) { // 这里要改成1， 如果是 0 的话会在下一个小节发出一个音之后截断
         if (state.phraseState === 'PLAYING') {
             
             const preset = PRESETS[state.currentPresetKey];
@@ -124,7 +124,7 @@ function updatePhraseState() {
             state.phraseBeatsRemaining = [8, 12, 16][Math.floor(Math.random() * 3)];
             
             // *** 关键：新乐句开始时，生成一个新的节奏型 ***
-            state.currentMotif = generateNewMotif();
+            state.currentMotif = generateNewMotif(state.beatsPerBar);
             state.motifIndex = 0;
         }
     }
@@ -204,7 +204,7 @@ function tick() {
                 // --- 演奏状态 ---
                 
                 // 1. 获取当前动机的下一个时值
-                if (state.currentMotif.length === 0) state.currentMotif = generateNewMotif();
+                if (state.currentMotif.length === 0) state.currentMotif = generateNewMotif(state.beatsPerBar);
                 
                 const durationInBeats = state.currentMotif[state.motifIndex];
                 const durationSeconds = beatDuration * durationInBeats;
