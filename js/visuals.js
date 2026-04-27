@@ -4,6 +4,7 @@ class RainVisualizer {
         this.ctx = this.canvas.getContext('2d');
         this.drops = [];
         this.isRunning = false;
+        this.isSpawning = false;
         this.animationFrameId = null;
         this.intensity = 0;
         this.tone = 400;
@@ -64,8 +65,9 @@ class RainVisualizer {
     }
 
     draw() {
-        if (!this.isRunning) {
+        if (!this.isRunning && this.drops.length === 0) {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.animationFrameId = null;
             return;
         }
 
@@ -102,7 +104,9 @@ class RainVisualizer {
         }
 
         // 持续生成新雨滴
-        this.createDrop();
+        if (this.isSpawning) {
+            this.createDrop();
+        }
         this.ctx.globalAlpha = 1;
         this.animationFrameId = requestAnimationFrame(() => this.draw());
     }
@@ -112,16 +116,13 @@ class RainVisualizer {
         if (enable === this.isRunning) return;
 
         this.isRunning = enable;
+        this.isSpawning = enable;
         if (enable) {
             this.draw();
         } else {
-            // todo： 关掉后不要清空屏幕。让剩下的雨滴落下
-            if (this.animationFrameId) {
-                cancelAnimationFrame(this.animationFrameId);
-                this.animationFrameId = null;
+            if (!this.animationFrameId) {
+                this.draw();
             }
-            this.drops = []; // 清空雨滴
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         }
     }
 }
