@@ -30,19 +30,59 @@ class AudioEngine {
         
         // 4. 鼓组 & 环境音 (保持不变)
         this.kick = new Tone.MembraneSynth({
-            pitchDecay: 0.03,
-            octaves: 3,
+            pitchDecay: 0.045,
+            octaves: 3.5,
             oscillator: { type: "sine" },
             envelope: {
                 attack: 0.001,
-                decay: 0.18,
+                decay: 0.14,
                 sustain: 0,
-                release: 0.25
+                release: 0.18
             }
         }).toDestination();
-        this.kick.volume.value = -12;
-        this.hihat = new Tone.MetalSynth().toDestination();
-        this.hihat.volume.value = -25;
+        this.kick.volume.value = -7;
+        this.snareFilter = new Tone.Filter({
+            type: "bandpass",
+            frequency: 2200,
+            Q: 1
+        }).toDestination();
+        this.snare = new Tone.NoiseSynth({
+            noise: { type: "pink" },
+            envelope: {
+                attack: 0.001,
+                decay: 0.12,
+                sustain: 0,
+                release: 0.08
+            }
+        }).connect(this.snareFilter);
+        this.snare.volume.value = -11;
+        this.snareBody = new Tone.MembraneSynth({
+            pitchDecay: 0.01,
+            octaves: 0.8,
+            oscillator: { type: "triangle" },
+            envelope: {
+                attack: 0.001,
+                decay: 0.1,
+                sustain: 0,
+                release: 0.06
+            }
+        }).toDestination();
+        this.snareBody.volume.value = -7;
+        this.hihatFilter = new Tone.Filter({
+            type: "highpass",
+            frequency: 6500,
+            Q: 0.8
+        }).toDestination();
+        this.hihat = new Tone.NoiseSynth({
+            noise: { type: "white" },
+            envelope: {
+                attack: 0.001,
+                decay: 0.035,
+                sustain: 0,
+                release: 0.02
+            }
+        }).connect(this.hihatFilter);
+        this.hihat.volume.value = -21;
         this.rainNoise = new Tone.Noise("pink");
         this.rainFilter = new Tone.AutoFilter({ frequency: 0.1, depth: 0.5, baseFrequency: 600 }).start();
         this.rainVolume = new Tone.Volume(-Infinity);
@@ -232,19 +272,24 @@ class AudioEngine {
 
     playKick(time) {
         // C1 是标准的底鼓音高
-        this.kick.triggerAttackRelease(48, "8n", time, 0.45);
+        this.kick.triggerAttackRelease(55, "8n", time, 0.62);
+    }
+
+    playSnare(time) {
+        this.snareBody.triggerAttackRelease(200, "16n", time, 0.5);
+        this.snare.triggerAttackRelease("16n", time, 0.58);
     }
 
     playHiHatHeavey(time) {
         console.log("Playing hi-hat at time:", time);
         // 触发短促的噪音
-        this.hihat.triggerAttackRelease(200, "32n", time, 0.25); // velocity 0.3
+        this.hihat.triggerAttackRelease("32n", time, 0.3); // velocity 0.3
     }
 
     playHiHat(time) {
         console.log("Playing hi-hat at time:", time);
         // 触发短促的噪音
-        this.hihat.triggerAttackRelease(160, "32n", time, 0.1); // velocity 0.3
+        this.hihat.triggerAttackRelease("32n", time, 0.2); // velocity 0.3
     }
     
     async resume() {
