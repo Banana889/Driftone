@@ -51,7 +51,7 @@ class RainVisualizer {
 
         for (let i = 0; i < count; i++) {
             const speed = 4 + this.intensity * 8 + toneRatio * 6 + Math.random() * 3;
-            const length = 10 + this.intensity * 20 + toneRatio * 10 + Math.random() * 8;
+            const length = 7 + this.intensity * 10 + toneRatio * 5 + Math.random() * 4;
             const opacity = 0.12 + this.intensity * 0.4 + toneRatio * 0.18 + Math.random() * 0.08;
             this.drops.push({
                 x: spawnMinX + Math.random() * (spawnMaxX - spawnMinX),
@@ -84,7 +84,7 @@ class RainVisualizer {
         // 更新并绘制每个雨滴
         for (let i = 0; i < this.drops.length; i++) {
             const d = this.drops[i];
-            const slant = d.drift * (1.4 + d.length * 0.04);
+            const slant = d.drift * (1.2 + d.length * 0.025);
             
             this.ctx.beginPath();
             this.ctx.moveTo(d.x, d.y);
