@@ -20,14 +20,17 @@ class RainVisualizer {
     }
 
     setIntensity(val) {
+        // 音量映射到“雨量感”：影响密度、长度、透明度
         this.intensity = Math.max(0, Math.min(1, val));
     }
 
     setTone(val) {
+        // Tone 保持和音频滤波器同量级，视觉上用于控制速度和亮度
         this.tone = Math.max(100, Math.min(3000, val));
     }
 
     setWind(val) {
+        // Wind 不直接做物理模拟，只作为横向漂移强度
         this.wind = Math.max(0, Math.min(40, val));
     }
 
@@ -35,15 +38,23 @@ class RainVisualizer {
         const spawnBase = 1 + this.intensity * 6;
         const count = Math.max(1, Math.floor(Math.random() * 2 + spawnBase));
         const toneRatio = (this.tone - 100) / 2900;
-        const windDrift = this.wind * 0.35;
+        const windDrift = this.wind * 0.16;
+        const baseSpeed = 4 + this.intensity * 8 + toneRatio * 6;
+        // 斜雨如果只从屏幕正上方生成，迎风侧会出现空白。
+        // 这里按“整段下落期间可能横向漂移多远”来扩展出生区域。
+        const horizontalTravel = Math.abs(windDrift) * (this.canvas.height / Math.max(baseSpeed, 1));
+        const spawnPadding = Math.max(40, horizontalTravel + 40);
+        const spawnMinX = windDrift >= 0 ? -spawnPadding : 0;
+        const spawnMaxX = windDrift >= 0 ? this.canvas.width : this.canvas.width + spawnPadding;
+        const spawnBandHeight = 30 + this.intensity * 30;
 
         for (let i = 0; i < count; i++) {
             const speed = 4 + this.intensity * 8 + toneRatio * 6 + Math.random() * 3;
             const length = 10 + this.intensity * 20 + toneRatio * 10 + Math.random() * 8;
             const opacity = 0.12 + this.intensity * 0.4 + toneRatio * 0.18 + Math.random() * 0.08;
             this.drops.push({
-                x: Math.random() * this.canvas.width,
-                y: -20, // 从屏幕上方一点点开始
+                x: spawnMinX + Math.random() * (spawnMaxX - spawnMinX),
+                y: -Math.random() * spawnBandHeight,
                 speed,
                 drift: windDrift + (Math.random() - 0.5) * 0.6,
                 length,
@@ -71,7 +82,7 @@ class RainVisualizer {
         // 更新并绘制每个雨滴
         for (let i = 0; i < this.drops.length; i++) {
             const d = this.drops[i];
-            const slant = d.drift * (2.5 + d.length * 0.08);
+            const slant = d.drift * (1.4 + d.length * 0.04);
             
             this.ctx.beginPath();
             this.ctx.moveTo(d.x, d.y);
@@ -97,6 +108,7 @@ class RainVisualizer {
     }
 
     toggle(enable) {
+        // 避免重复 toggle(true) 时叠出多条 requestAnimationFrame 循环
         if (enable === this.isRunning) return;
 
         this.isRunning = enable;
