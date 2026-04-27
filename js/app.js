@@ -307,6 +307,7 @@ document.getElementById('rain-toggle').addEventListener('change', (e) => {
 document.getElementById('noise-vol').addEventListener('input', (e) => {
     const val = parseFloat(e.target.value);
     if (noiseGen) noiseGen.setVolume(val);
+    if (visuals) visuals.setIntensity(val);
     
     // 联动视觉效果：有声音就有雨滴
     if (visuals) visuals.toggle(val > 0.05);
@@ -316,6 +317,7 @@ document.getElementById('noise-vol').addEventListener('input', (e) => {
 document.getElementById('noise-freq').addEventListener('input', (e) => {
     const val = parseFloat(e.target.value);
     if (noiseGen) noiseGen.setFilterFreq(val);
+    if (visuals) visuals.setTone(val);
 });
 
 // 3. Q值控制 (Wind)
@@ -332,7 +334,7 @@ document.getElementById('noise-q').addEventListener('input', (e) => {
     }
     
     // 联动视觉：风越大，雨越斜
-    if (visuals) visuals.wind = val * 2; // 简单的联动映射
+    if (visuals) visuals.setWind(val * 2);
 });
 
 // BPM Control
