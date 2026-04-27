@@ -153,7 +153,7 @@ function tick() {
         // 1. 鼓组 (Drums)
         if (state.isDrumsEnabled && isOnBeat) {
             if (currentBeatInBar === 0) {
-                // engine.playKick(nextBeatTime);
+                engine.playKick(nextBeatTime);
                 engine.playHiHatHeavey(nextBeatTime);
             } else {
                 engine.playHiHat(nextBeatTime);

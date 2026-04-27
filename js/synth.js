@@ -29,7 +29,18 @@ class AudioEngine {
         this.additiveSynths = []; 
         
         // 4. 鼓组 & 环境音 (保持不变)
-        this.kick = new Tone.MembraneSynth().toDestination();
+        this.kick = new Tone.MembraneSynth({
+            pitchDecay: 0.03,
+            octaves: 3,
+            oscillator: { type: "sine" },
+            envelope: {
+                attack: 0.001,
+                decay: 0.18,
+                sustain: 0,
+                release: 0.25
+            }
+        }).toDestination();
+        this.kick.volume.value = -12;
         this.hihat = new Tone.MetalSynth().toDestination();
         this.hihat.volume.value = -25;
         this.rainNoise = new Tone.Noise("pink");
@@ -221,7 +232,7 @@ class AudioEngine {
 
     playKick(time) {
         // C1 是标准的底鼓音高
-        this.kick.triggerAttackRelease(60, "8n", time);
+        this.kick.triggerAttackRelease(48, "8n", time, 0.45);
     }
 
     playHiHatHeavey(time) {
