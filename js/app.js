@@ -151,15 +151,46 @@ function tick() {
     // --- 统一调度核心 (The Grid) ---
     while (nextBeatTime < now + 0.1) {
         
-        const isOnBeat = stepIndex % 2 === 0; 
+        const isOnBeat = stepIndex % 2 === 0;
+        const currentHalfBeatInBar = stepIndex % (state.beatsPerBar * 2);
         const currentBeatInBar = Math.floor(stepIndex / 2) % state.beatsPerBar;
 
         // 1. 鼓组 (Drums)
-        if (state.isDrumsEnabled && isOnBeat) {
-            if (currentBeatInBar === 0) {
-                // engine.playKick(nextBeatTime);
-                engine.playHiHatHeavey(nextBeatTime);
+        if (state.isDrumsEnabled) {
+            if (state.beatsPerBar === 3) {
+                if (isOnBeat) {
+                    if (currentBeatInBar === 0) {
+                        engine.playKick(nextBeatTime);
+                        engine.playHiHatHeavey(nextBeatTime);
+                    } else {
+                        engine.playSnare(nextBeatTime);
+                        engine.playHiHat(nextBeatTime);
+                    }
+                }
+            } else if (state.beatsPerBar === 6) {
+                if (currentHalfBeatInBar === 0) {
+                    engine.playKick(nextBeatTime);
+                    engine.playHiHatHeavey(nextBeatTime);
+                } else if (currentHalfBeatInBar === 6) {
+                    engine.playKick(nextBeatTime);
+                    engine.playHiHat(nextBeatTime);
+                } else if (currentHalfBeatInBar === 8) {
+                    engine.playSnare(nextBeatTime);
+                } else if (currentHalfBeatInBar % 2 === 0) {
+                    engine.playHiHat(nextBeatTime);
+                }
             } else {
+                const isBackbeat = currentBeatInBar === 1 || currentBeatInBar === 3;
+                const isDownbeat = currentBeatInBar === 0 || currentBeatInBar === 2;
+
+                if (isOnBeat && isDownbeat) {
+                    engine.playKick(nextBeatTime);
+                }
+
+                if (isOnBeat && isBackbeat) {
+                    engine.playSnare(nextBeatTime);
+                }
+
                 engine.playHiHat(nextBeatTime);
             }
         }
