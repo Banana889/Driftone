@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="static/Driftone-icon-1024.svg" alt="Driftone icon" width="80" align="absmiddle" /> Driftone
+  <img src="static/driftone-icon-1024.svg" alt="Driftone icon" width="80" align="absmiddle" /> Driftone
 </h1>
 
 <p align="center"><strong>Generative ambient music and white noise, anchored in a tranquil harbor.</strong></p>
