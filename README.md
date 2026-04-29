@@ -13,7 +13,7 @@ It combines simple harmony rules, evolving melody logic, selectable instruments,
 
 ## Run
 
-Try it online on my [Github Page](https://banana889.github.io/driftone/).
+Try it online on my [Github Page](https://banana889.github.io/Driftone/).
 
 Or serve the project over a local HTTP server:
 
