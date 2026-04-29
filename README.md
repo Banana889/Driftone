@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="static/draftone-icon-1024.svg" alt="Draftone icon" width="80" align="absmiddle" /> Draftone
+  <img src="static/Driftone-icon-1024.svg" alt="Driftone icon" width="80" align="absmiddle" /> Driftone
 </h1>
 
 <p align="center"><strong>Generative ambient music and white noise, anchored in a tranquil harbor.</strong></p>
@@ -8,7 +8,7 @@
 >
 > Developing...
 
-Draftone is a browser-based experiment in generative ambient music.
+Driftone is a browser-based experiment in generative ambient music.
 It combines simple harmony rules, evolving melody logic, selectable instruments, and environmental noise to create an endless soundscape.
 
 ## Run
@@ -34,4 +34,4 @@ The app uses a Web Worker (`js/worker.js`) and audio assets such as `res/rain.mp
 
 See it at [here](./TODO.md).
 
-If you enjoy Draftone, consider giving this repo a star.
+If you enjoy Driftone, consider giving this repo a star.

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Generative Ambient Guitar</title>
-    <link rel="icon" type="image/svg+xml" href="static/draftone-icon-1024.svg">
-    <link rel="shortcut icon" href="static/draftone-icon-1024.svg">
-    <link rel="apple-touch-icon" href="static/draftone-icon-1024.svg">
+    <link rel="icon" type="image/svg+xml" href="static/Driftone-icon-1024.svg">
+    <link rel="shortcut icon" href="static/Driftone-icon-1024.svg">
+    <link rel="apple-touch-icon" href="static/Driftone-icon-1024.svg">
     <style>
         body {
             background-color: #1a1a1a;
@@ -49,10 +49,10 @@
 
 <script>
     // --- 1. 基础设置与乐理库 ---
-    
+
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let ctx;
-    
+
     // C Major Pentatonic Scale (C 大调五声音阶: C, D, E, G, A)
     // 这种音阶怎么瞎弹都不会难听，非常适合生成音乐
     const NOTES = {
@@ -60,12 +60,12 @@
         'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'G4': 392.00, 'A4': 440.00,
         'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'G5': 783.99, 'A5': 880.00
     };
-    
+
     const SCALE_KEYS = Object.keys(NOTES);
 
     // --- 2. 核心合成器 (The Instrument) ---
     // 模拟一种类似 "电钢琴" 或 "吉他泛音" 的声音
-    
+
     function playTone(freq, duration) {
         if (!ctx) return;
 
@@ -87,14 +87,14 @@
         // Oscillator -> Gain -> DelayEffect -> Master -> Speakers
         osc.connect(gainNode);
         gainNode.connect(masterEffectInput); // 连接到效果器回路
-        
+
         osc.start(t);
         osc.stop(t + duration);
     }
 
     // --- 3. 效果器链 (The Pedalboard) ---
     // 氛围音乐的灵魂在于 Delay (延时) 和 Reverb (混响)
-    
+
     let masterEffectInput, masterOutput;
 
     function setupEffects() {
@@ -105,14 +105,14 @@
         // 创建 Delay 节点 (模拟吉他延时踏板)
         const delay = ctx.createDelay();
         delay.delayTime.value = 0.4; // 400ms 延时
-        
+
         const feedback = ctx.createGain();
         feedback.gain.value = 0.4; // 40% 的声音反馈回来 (Repeats)
 
         // 效果器路由图:
         // Input -> Output
         //   |-> Delay -> Feedback -> Delay (形成循环) -> Output
-        
+
         masterEffectInput.connect(masterOutput);      // 干声 (Dry)
         masterEffectInput.connect(delay);             // 湿声 (Wet)
         delay.connect(feedback);
@@ -124,7 +124,7 @@
 
     // --- 4. 生成逻辑 (The Brain) ---
     // 这里就是你的 "AI" 吉他手
-    
+
     let isPlaying = false;
     let nextNoteTime = 0;
 
@@ -137,10 +137,10 @@
             scheduleNote();
             // 决定下一个音符在多久之后 (Rhythm)
             // 在 0.5秒 到 3秒 之间随机，制造 "Rubato" (自由速度) 感
-            const nextDelay = Math.random() * 2.5 + 0.5; 
+            const nextDelay = Math.random() * 2.5 + 0.5;
             nextNoteTime += nextDelay;
         }
-        
+
         // 保持循环检查
         requestAnimationFrame(scheduler);
     }
@@ -150,7 +150,7 @@
         // 30% 的概率不弹任何东西，让 Delay 的尾音飘一会儿
         if (Math.random() < 0.3) {
             log("... (rest) ...");
-            return; 
+            return;
         }
 
         // 逻辑 B: 选音 (Note Selection)
@@ -167,7 +167,7 @@
     }
 
     // --- UI 交互 ---
-    
+
     function log(msg) {
         const div = document.getElementById('log');
         div.innerHTML = `<div>${msg}</div>` + div.innerHTML;
@@ -175,14 +175,14 @@
 
     document.getElementById('start-btn').addEventListener('click', () => {
         if (isPlaying) return;
-        
+
         ctx = new AudioContext();
         setupEffects();
-        
+
         isPlaying = true;
         nextNoteTime = ctx.currentTime;
         scheduler();
-        
+
         document.getElementById('status').innerText = "正在演奏: C Major Pentatonic Ambient...";
         document.getElementById('start-btn').style.display = 'none';
     });
