@@ -2,7 +2,7 @@
   <img src="static/draftone-icon-1024.svg" alt="Draftone icon" width="80" align="absmiddle" /> Draftone
 </h1>
 
-<p align="center"><strong>A random ambient music / white noise generator.</strong></p>
+<p align="center"><strong>Generative ambient music and white noise, anchored in a tranquil harbor.</strong></p>
 
 > Based on Tone.js, ~~Gemini~~, and my poor music theory...
 >
@@ -13,7 +13,9 @@ It combines simple harmony rules, evolving melody logic, selectable instruments,
 
 ## Run
 
-Serve the project over a local HTTP server:
+Try it online on my [Github Page](https://banana889.github.io/driftone/).
+
+Or serve the project over a local HTTP server:
 
 ```bash
 python -m http.server 8000
@@ -31,3 +33,5 @@ The app uses a Web Worker (`js/worker.js`) and audio assets such as `res/rain.mp
 ## Roadmap
 
 See it at [here](./TODO.md).
+
+If you enjoy Draftone, consider giving this repo a star.
