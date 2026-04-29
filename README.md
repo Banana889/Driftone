@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="static/draftone-icon-1024.svg" alt="Draftone icon" width="64" align="absmiddle" /> Draftone
+  <img src="static/draftone-icon-1024.svg" alt="Draftone icon" width="80" align="absmiddle" /> Draftone
 </h1>
 
 <p align="center"><strong>A random ambient music / white noise generator.</strong></p>
