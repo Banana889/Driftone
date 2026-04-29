@@ -1,6 +1,6 @@
 <p align="center">
   <img src="static/draftone-icon-1024.svg" alt="Draftone icon" width="64" align="absmiddle" />
-  <strong><sub><sup><sup>Draftone</sup></sup></sub></strong>
+  <strong><font size="6">Draftone</font></strong>
 </p>
 
 <p align="center"><strong>A random ambient music / white noise generator.</strong></p>
