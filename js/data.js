@@ -6,6 +6,27 @@ const FREQ = {
     'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'F5': 698.46, 'G5': 783.99, 'A5': 880.00
 };
 
+// A#3 Bb3
+function getFrequency(note) {
+    if (note in FREQ) {
+        return FREQ[note];
+    } 
+    if (note.length === 3 && note[1] === '#') {
+        const baseNote = note[0] + note[2];
+        if (baseNote in FREQ) {
+            return FREQ[baseNote] * Math.pow(2, 1/12); // 升半音
+        }
+    }
+    if (note.length === 3 && note[1] === 'b') {
+        const baseNote = note[0] + note[2];
+        if (baseNote in FREQ) {
+            return FREQ[baseNote] / Math.pow(2, 1/12); // 降半音
+        }
+    }
+    console.warn("Unknown note:", note);
+    return 440.00; // 默认 A4
+}
+
 // 2. 音乐预设 (包含音阶和对应的和弦进行)
 const PRESETS = {
     "c_major": {
@@ -123,6 +144,23 @@ const PRESETS = {
             "IV":  { "V": 3, "I": 2, "ii": 1 },           // IV -> V 或 回到 I
             "V":   { "I": 4, "vi": 2, "iii": 1 },         // V -> I (解决)
             "vi":  { "ii": 2, "IV": 2, "iii": 1, "V": 1 } // vi -> ii
+        }
+    },
+    "a_minor_blues": {
+        name: "Minor Blues (Soulful)",
+        scale: ['A2','C3','D3','D#3','E3','G3','A3','C4','D4','D#4','E4','G4','A4'],
+        // 新增：定义稳定音 (主音 A, 属音 E)
+        stableNotes: ["A", "E"],
+        startChord: "i",
+        chords: {
+            "i":   { name: "Am7",   root: "A2", tones: ["A", "C", "E", "G"] },
+            "IV":  { name: "D7",    root: "D3", tones: ["D", "F#", "A", "C"] },
+            "V":   { name: "E7",    root: "E3", tones: ["E", "G#", "B", "D"] }
+        },
+        graph: {
+            "i":   { "IV": 4, "V": 2 },
+            "IV":  { "i": 4, "V": 2 },
+            "V":   { "i": 5, "IV": 1 }
         }
     }
 };

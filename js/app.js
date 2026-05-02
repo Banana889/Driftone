@@ -249,7 +249,7 @@ function tick() {
                 const selection = NextNote.pick_gohome(preset, state.playingChord, state.lastPlayedNoteIndex);
                 
                 state.lastPlayedNoteIndex = selection.index;
-                const freq = FREQ[selection.note];
+                const freq = getFrequency(selection.note);
 
                 // todo 根据选音的结果，如果是稳定音，则适当延长时值
 
