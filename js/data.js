@@ -151,6 +151,7 @@ const PRESETS = {
         scale: ['A2','C3','D3','D#3','E3','G3','A3','C4','D4','D#4','E4','G4','A4'],
         // 新增：定义稳定音 (主音 A, 属音 E)
         stableNotes: ["A", "E"],
+        specialNotes: ["D#"],
         startChord: "i",
         chords: {
             "i":   { name: "Am7",   root: "A2", tones: ["A", "C", "E", "G"] },
@@ -165,9 +166,10 @@ const PRESETS = {
     },
     "c_dorian": {
         name: "C Dorian (Moody)",
-        scale: ['C3','D3','Eb3','F3','G3','A3','Bb3','C4','D4','Eb4','F4','G4','A4','Bb4','C5'],
+        scale: ['C3','D3','Eb3','F3','G3','A3','Bb3','C4','D4','Eb4','F4','G4','A4'],
         // 新增：定义稳定音 (主音 C, 属音 G)
         stableNotes: ["C", "G"],
+        specialNotes: ["Eb", "Bb"], // Dorian 模式的特征音
         startChord: "i",
         chords: {
             "i":   { name: "Cm7",   root: "C3", tones: ["C", "Eb", "G", "Bb"] },

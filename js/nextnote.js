@@ -105,6 +105,18 @@ const NextNote = {
             });
         }
 
+        // C. 添加特征音
+        if ('specialNotes' in preset) {
+            console.log("pick special notes")
+            preset.specialNotes.forEach(special => {
+                scale.forEach((note, index) => {
+                    if (note.startsWith(special)) {
+                        if (!stableIndices.includes(index)) stableIndices.push(index);
+                    }
+                });
+            });
+        }
+
         // 3. 寻找距离上一个音最近的稳定音
         let bestCandidate = null;
         let minDistance = Infinity;
