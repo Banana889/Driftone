@@ -162,5 +162,30 @@ const PRESETS = {
             "IV":  { "i": 4, "V": 2 },
             "V":   { "i": 5, "IV": 1 }
         }
+    },
+    "c_dorian": {
+        name: "C Dorian (Moody)",
+        scale: ['C3','D3','Eb3','F3','G3','A3','Bb3','C4','D4','Eb4','F4','G4','A4','Bb4','C5'],
+        // 新增：定义稳定音 (主音 C, 属音 G)
+        stableNotes: ["C", "G"],
+        startChord: "i",
+        chords: {
+            "i":   { name: "Cm7",   root: "C3", tones: ["C", "Eb", "G", "Bb"] },
+            "ii":  { name: "Dm7",   root: "D3", tones: ["D", "F", "A", "C"] },
+            "III": { name: "Ebmaj7",root: "Eb3",tones: ["Eb", "G", "Bb", "D"] },
+            "IV":  { name: "F7",    root: "F3", tones: ["F", "A", "C", "Eb"] },
+            "v":   { name: "Gm7",   root: "G3", tones: ["G", "Bb", "D", "F"] },
+            "vi":  { name: "Am7b5", root: "A3", tones: ["A", "C", "Eb", "G"] },
+            "VII": { name: "Bbmaj7",root: "Bb3",tones: ["Bb", "D", "F", "A"] }
+        },
+        graph: {
+            "i":   { "IV": 3, "v": 2, "ii": 1 },
+            "ii":  { "v": 4, "vi": 1 },
+            "III": { "vi": 2, "VII": 2 },
+            "IV":  { "v": 3, "i": 2, "ii": 1 },
+            "v":   { "i": 4, "vi": 1 },
+            "vi":  { "VII": 2, "IV": 2, "i": 1 },
+            "VII": { "III": 3, "i": 2 }
+        }
     }
 };
